@@ -1,10 +1,12 @@
+package problem4.MostCommonWord;
+
 import java.util.*;
 
 /*
 O(n) + O(n) + O(n) = O(n)
 금지 단어 제거 + 단어 세기 + 최빈 단어
  */
-public class Main {
+public class Solution {
     private static final String paragraph = "Ross hit a ball, the hit BALL flew far away after it was hit";
     private static String[] banned = {"hit"};
 

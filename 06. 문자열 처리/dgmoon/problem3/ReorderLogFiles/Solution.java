@@ -1,3 +1,5 @@
+package problem3.ReorderLogFiles;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -6,8 +8,8 @@ import java.util.List;
 분류 후 팀소트
 O(n) + O(n log n) = O(n log n)
  */
-public class Main {
-    private static String[] input = {
+public class Solution {
+    private static String[] INPUT = {
             "id1 8 1 5 1",
             "id2 art can",
             "id3 3 6",
@@ -20,7 +22,7 @@ public class Main {
         List<String> strings = new LinkedList<>();
         List<String> numbers = new LinkedList<>();
 
-        for (String s : input) {
+        for (String s : INPUT) {
             if (Character.isDigit(s.split(" ")[1].charAt(0))) {
                 numbers.add(s);
             } else {
