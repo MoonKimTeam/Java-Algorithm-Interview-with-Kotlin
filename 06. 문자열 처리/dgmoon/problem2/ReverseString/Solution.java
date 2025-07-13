@@ -1,3 +1,5 @@
+package problem2.ReverseString;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -6,7 +8,7 @@ import java.util.stream.Collectors;
 /**
  * O(n)
  */
-public class Main {
+public class Solution {
     private static final String[] INPUT = new String[]{"h", "e", "l", "l", "o"};
 
     public static void main(String[] args) {

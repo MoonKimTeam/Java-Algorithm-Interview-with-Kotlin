@@ -1,10 +1,12 @@
+package problem1.ValidPalindrome;
+
 import java.util.Scanner;
 
 /**
  * 최선 O(1)
  * 최악 O(n)
  */
-public class Main {
+public class Solution {
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             String input = scanner.nextLine();
