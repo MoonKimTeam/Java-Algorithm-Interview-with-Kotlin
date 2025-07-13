@@ -192,4 +192,94 @@ public class Main {
 
 문자열을 전처리하는데 o(n), Collections.max()가 o(n)이므로 시간복잡도는 o(n)
 
+---
+
+# 그룹 애너그램
+
+<img width="626" height="363" alt="Image" src="https://github.com/user-attachments/assets/48fc623a-0020-41bb-b841-f75a46344e6a" />
+
+## 접근 방식
+
+1. 문자를 재배열하여 다른 뜻을 가진 단어로 바꾸기 = 문자를 정렬하면 같은 단어인 것
+2. 문자열을 char로 분리하여 정렬 후, 같은 문자열끼리 묶는다
+
+## 풀이
+
+```java
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> result = new HashMap<>();
+        for (String s : strs) {
+            char[] charArray = s.toCharArray();
+            Arrays.sort(charArray);
+            String string = Arrays.toString(charArray);
+
+            if (!result.containsKey(string)) {
+                result.put(string, new ArrayList<>());
+            }
+            result.get(string).add(s);
+        }
+        
+        return new ArrayList<>(result.values());
+    }
+}
+```
+
+## 시간복잡도
+
+- 문자열의 길이 = a
+- 문자열을 쪼갠 문자의 길이 = b 
+
+o(a * b log b)
+
+---
+
+# 가장 긴 플린드롬 부분 문자열
+
+<img width="364" height="119" alt="Image" src="https://github.com/user-attachments/assets/95bd25a8-62e3-44e5-8e95-508ee7ffc645" />
+
+## 접근 방식
+
+1. 문자열 중심으로 양옆을 비교하면 팰린드롬을 찾는다. 문자열이 홀수인 경우 중심 문자는 1개, 짝수인 경우 중심 문자는 2개이다.
+2. 문자열의 각 인덱스를 중심으로 설정하여, 그 중심에서 좌우로 같은 문자가 계속되면 확장한다.
+3. start와 end 인덱스를 기반으로 s.substring(start, end + 1)을 반환한다.
+
+## 풀이
+
+```java
+class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) return "";
+
+        int start = 0, end = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandFromCenter(s, i, i);       // 홀수 팰린드롬
+            int len2 = expandFromCenter(s, i, i + 1);   // 짝수 팰린드롬
+            int maxLen = Math.max(len1, len2);
+
+            if (maxLen > end - start) {
+                // 새로운 최대 팰린드롬 범위를 저장
+                start = i - (maxLen - 1) / 2;
+                end = i + maxLen / 2;
+            }
+        }
+
+        return s.substring(start, end + 1);
+    }
+
+    private int expandFromCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return right - left - 1; // 팰린드롬 길이 반환
+    }
+}
+```
+
+## 시간복잡도
+
+o(n^2)
+
 
