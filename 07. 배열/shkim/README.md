@@ -94,3 +94,90 @@ class Solution {
 ## 시간복잡도
 
 o(n)
+
+---
+
+# 세 수의 합
+
+<img width="570" height="174" alt="Image" src="https://github.com/user-attachments/assets/a29b8479-c1f8-426d-9538-f6e5ec131b7d" />
+
+## 접근 과정
+
+- 배열을 오름차순으로 정렬 (중복제거, 투포인터 사용을 위해)
+- 투포인터로 순회
+
+## 풀이
+
+```java
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            // 중복된 i는 건너뜀
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                
+                if (sum == 0) {
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+
+                    // left, right 중복값 건너뜀
+                    while (left < right && nums[left] == nums[left + 1]) left++;
+                    while (left < right && nums[right] == nums[right - 1]) right--;
+
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+
+        return result;
+    }
+}
+```
+
+## 시간복잡도
+
+o(n^2)
+
+---
+
+# 배열 파티션 1
+
+<img width="647" height="173" alt="Image" src="https://github.com/user-attachments/assets/5e6c8a37-6f3c-4d06-99ac-e38749408e0b" />
+
+## 접근 과정
+
+- 배열을 오름차순 정렬하면, 인접한 두 수씩 쌍을 만들 때 min값의 합이 최대
+- 정렬 후 짝수 인덱스의 값들을 더함
+
+## 풀이
+
+```java
+class Solution {
+    public int arrayPairSum(int[] nums) {
+        Arrays.sort(nums);
+        int sum = 0;
+        
+        for (int i = 0; i < nums.length; i += 2) {
+            sum += nums[i];
+        }
+
+        return sum;
+    }
+}
+```
+
+## 시간복잡도
+
+o(n log n)
