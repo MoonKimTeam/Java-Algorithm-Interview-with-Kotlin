@@ -181,3 +181,101 @@ class Solution {
 ## 시간복잡도
 
 o(n log n)
+
+---
+
+# 자신을 제외한 배열의 곱
+
+<img width="625" height="179" alt="Image" src="https://github.com/user-attachments/assets/d3e59409-f88d-47da-926a-f8baa5b0a967" />
+
+## 접근 과정
+
+- 왼쪽 곱 저장
+  - 결과 배열에, 각 인덱스 i까지의 왼쪽 곱을 저장
+  - answer[0] = 1 (자기 자신을 제외해야 하므로)
+- 오른쪽 곱 저장 및 곱하기
+  - 오른쪽에서부터 누적 곱을 계산하며 곱해줌
+
+## 풀이
+
+```java
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
+
+        // 왼쪽 곱 
+        result[0] = 1;
+        for (int i = 1; i < n; i++) {
+            result[i] = result[i - 1] * nums[i - 1];
+        }
+
+
+        // 오른쪽 곱
+        int right = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            result[i] = result[i] * right;
+            right *= nums[i];
+        }
+
+        return result;
+    }
+}
+```
+
+## 시간복잡도
+
+o(n)
+
+---
+
+# 주식을 사고팔기 가장 좋은 시점
+
+<img width="534" height="165" alt="Image" src="https://github.com/user-attachments/assets/dd36efcf-61cc-4419-829d-52a9c737189d" />
+
+## 접근 과정
+
+- 배열을 한 번만 순회하면서, 지금까지의 최소값을 저장
+- 각 날마다, 그 날에 팔았을 때의 이익(prices[i] - 최소값)을 계산해서 최대 이익을 갱신
+
+## 풀이
+
+```java
+class Solution {
+    public int maxProfit(int[] prices) {
+        int minPrice = Integer.MAX_VALUE;
+        int maxProfit = 0;
+
+        for (int price : prices) {
+            if (price < minPrice) {
+                minPrice = price; // 더 싼 가격
+            } else if (price - minPrice > maxProfit) {
+                maxProfit = price - minPrice; // 더 큰 이익
+            }
+        }
+
+        return maxProfit;
+    }
+}
+```
+
+## 시간복잡도
+
+o(n)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
