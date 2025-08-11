@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * O(n)
+ */
 class Solution {
     public int arrayPairSum(int[] nums) {
         int sum = 0;

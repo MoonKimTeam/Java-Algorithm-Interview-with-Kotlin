@@ -1,22 +1,22 @@
 package problem3;
 
-import java.sql.Array;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+/**
+ * O(n^2)
+ */
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> answers = new ArrayList<>();
         Map<Integer, List<int[]>> map = new HashMap<>();
-        
+
         for (int i = 0; i < nums.length; i++) {
             for (int j = i + 1; j < nums.length; j++) {
                 int sum = nums[i] + nums[j];
                 map.computeIfAbsent(sum, k -> new ArrayList<>()).add(new int[]{i, j});
             }
         }
-        
+
         for (int k = 0; k < nums.length; k++) {
             int target = -nums[k];
             if (map.containsKey(target)) {
