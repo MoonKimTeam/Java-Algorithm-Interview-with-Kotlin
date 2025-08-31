@@ -233,3 +233,129 @@ class Solution {
 ## 시간복잡도
 
 O(max(N, M)) (N: l1의 길이, M: l2의 길이)
+
+---
+
+# 페어의 노드 스왑
+
+<img width="539" height="144" alt="Image" src="https://github.com/user-attachments/assets/3f781fa9-39d7-4a78-afd2-8975f97ee7b8" />
+
+## 접근 과정
+
+- 포인터 셋업
+  - prev: 현재 쌍의 앞쪽 노드의 이전 노드를 가리킴 (초기값은 더미 노드)
+  - first: 현재 쌍의 첫 번째 노드
+  - second: 현재 쌍의 두 번째 노드
+- 페어 스왑
+  - prev → first → second → next
+  - prev.next = second
+  - first.next = second.next
+  - second.next = first
+  - prev = first (다음 쌍으로 이동)
+
+## 풀이
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        // 더미 노드 생성 (head 앞에 추가)
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+
+        // 쌍이 남아있는 동안 반복
+        while (prev.next != null && prev.next.next != null) {
+            ListNode first = prev.next;
+            ListNode second = first.next;
+
+            // 노드 교환
+            prev.next = second;
+            first.next = second.next;
+            second.next = first;
+
+            // 다음 쌍으로 이동
+            prev = first;
+        }
+
+        // 새로운 head 반환
+        return dummy.next;
+    }
+}
+```
+
+## 시간복잡도
+
+O(n) n은 리스트의 노드 개수
+
+---
+
+# 홀짝 연결 리스트
+
+<img width="690" height="163" alt="Image" src="https://github.com/user-attachments/assets/f83fed1b-110a-429f-81e1-a4508f955ca7" />
+
+## 접근 과정
+
+- 포인터 셋업
+   - odd: 홀수 인덱스 노드들을 연결할 포인터 (초기값: head)
+   - even: 짝수 인덱스 노드들을 연결할 포인터 (초기값: head.next)
+   - evenHead: 짝수 인덱스 리스트의 시작점 저장 (나중에 홀수 리스트 끝에 붙이기 위해)
+- 리스트 분리 및 연결
+   - odd와 even 포인터를 번갈아 이동시키며, 각각 홀수/짝수 인덱스 노드들만 연결.
+   - odd.next = even.next, odd = odd.next
+   - even.next = odd.next, even = even.next
+   - 위 과정을 even 또는 odd가 null이 될 때까지 반복.
+- 홀수 리스트 끝에 짝수 리스트 붙이기
+   - odd.next = evenHead
+- head 반환
+   - head가 홀수 리스트의 시작점이므로 head 반환.
+
+## 풀이
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if (head == null || head.next == null) return head;
+
+        ListNode odd = head;
+        ListNode even = head.next;
+        ListNode evenHead = even; // 짝수 리스트의 시작점 저장
+
+        while (even != null && even.next != null) {
+            odd.next = even.next; // 홀수 노드 연결
+            odd = odd.next;       // odd 포인터 이동
+
+            even.next = odd.next; // 짝수 노드 연결
+            even = even.next;     // even 포인터 이동
+        }
+
+        odd.next = evenHead; // 홀수 리스트 끝에 짝수 리스트 붙이기
+        return head;
+    }
+}
+```
+
+## 시간복잡도
+
+- 시간복잡도: O(n) n은 리스트의 노드 개수
+- 공간복잡도: O(1) 추가적인 리스트나 배열을 사용하지 않고, 포인터만 사용
+
