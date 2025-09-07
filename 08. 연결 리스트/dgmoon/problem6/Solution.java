@@ -6,8 +6,18 @@ import java.util.List;
 
 
 class Solution {
-    public LinkedList oddEvenList(LinkedList head) {
-        //todo
+    public LinkedList<Integer> oddEvenList(LinkedList<Integer> head) {
+        LinkedList<Integer> evenHead = (LinkedList<Integer>) head.clone();
+        evenHead.pollFirst();
+        LinkedList<Integer> oddHead = (LinkedList<Integer>) head.clone();
+        oddHead.addFirst(null);
+        for (int i = 1; i < head.size() - 1; i++) {
+            if (i % 2 == 1) {
+                head.set(i, evenHead.get(i));
+            } else {
+                head.set(i, oddHead.get(i));
+            }
+        }
         return head;
     }
 
