@@ -359,3 +359,52 @@ class Solution {
 - 시간복잡도: O(n) n은 리스트의 노드 개수
 - 공간복잡도: O(1) 추가적인 리스트나 배열을 사용하지 않고, 포인터만 사용
 
+---
+
+# 역순 연결 리스트 2
+
+<img width="615" height="245" alt="Image" src="https://github.com/user-attachments/assets/c9b3fbf7-6620-49e0-8aef-a769db27993a" />
+
+## 풀이
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+
+        // left-1번째 노드(prev) 찾기
+        ListNode prev = dummy;
+        for (int i = 1; i < left; i++) {
+            prev = prev.next;
+        }
+
+        ListNode curr = prev.next;
+        ListNode next = null;
+
+        // left~right 구간 뒤집기
+        for (int i = 0; i < right - left; i++) {
+            next = curr.next;
+            curr.next = next.next;
+            next.next = prev.next;
+            prev.next = next;
+        }
+
+        return dummy.next;
+    }
+}
+```
+
+## 시간복잡도
+
+o(n)
