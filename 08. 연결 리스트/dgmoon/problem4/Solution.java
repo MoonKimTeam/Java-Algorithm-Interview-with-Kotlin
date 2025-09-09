@@ -13,10 +13,10 @@ class Solution {
         while (!l1.isEmpty() || !l2.isEmpty() || carry != 0) {
             int sum = carry;
             if (!l1.isEmpty()) {
-                sum += l1.pollFirst();
+                sum += l1.pollLast();
             }
             if (!l2.isEmpty()) {
-                sum += l2.pollFirst();
+                sum += l2.pollLast();
             }
 
             carry = sum / 10;
