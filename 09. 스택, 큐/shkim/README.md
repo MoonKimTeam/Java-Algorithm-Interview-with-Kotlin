@@ -45,3 +45,181 @@ o(n)
 
 ---
 
+# 중복 문자 제거
+
+<img width="636" height="154" alt="Image" src="https://github.com/user-attachments/assets/42af76e7-fa60-4028-b644-6c9b3c7a4505" />
+
+## 접근 과정
+
+- 각 문자의 등장 횟수 카운트
+- 결과에 포함 여부 체크 
+- 스택을 이용해 결과 문자열 구성
+  - 현재 문자가 결과의 마지막 문자보다 사전순으로 앞서고, 마지막 문자가 뒤에 다시 등장한다면 pop
+  - 그 후 현재 문자를 push
+
+## 풀이
+
+```java
+class Solution {
+    public String removeDuplicateLetters(String s) {
+        int[] count = new int[26]; // 각 문자의 남은 개수
+        boolean[] inStack = new boolean[26]; // 결과에 포함 여부
+        for (char c : s.toCharArray()) {
+            count[c - 'a']++;
+        }
+
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            count[c - 'a']--;
+
+            if (inStack[c - 'a']) continue; // 이미 결과에 있으면 skip
+
+            // 스택 top이 현재 문자보다 크고, 뒤에 다시 등장한다면 pop
+            while (!stack.isEmpty() && c < stack.peek() && count[stack.peek() - 'a'] > 0) {
+                inStack[stack.pop() - 'a'] = false;
+            }
+
+            stack.push(c);
+            inStack[c - 'a'] = true;
+        }
+
+        // 스택에 쌓인 문자들을 문자열로 변환
+        StringBuilder sb = new StringBuilder();
+        for (char c : stack) {
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+}
+```
+
+## 시간복잡도
+
+o(n)
+
+---
+
+# 일일 온도
+
+<img width="783" height="300" alt="Image" src="https://github.com/user-attachments/assets/0d3fe10e-233f-4789-9897-842edb43e9ac" />
+
+## 접근 과정
+
+- 온도 배열을 왼쪽에서 오른쪽으로 순회
+  - 현재 온도가 스택의 top 인덱스의 온도보다 높으면:
+  - 스택에서 pop한 인덱스의 answer를 (현재 인덱스 - pop한 인덱스)로 채운다
+  - 이 과정을 현재 온도가 스택의 top보다 높을 때까지 반복
+  - 현재 인덱스를 스택에 push
+
+## 풀이
+
+```java
+public class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        int n = temperatures.length;
+        int[] answer = new int[n];
+        java.util.Stack<Integer> stack = new java.util.Stack<>();
+        
+        for (int i = 0; i < n; i++) {
+            // 현재 온도가 스택 top의 온도보다 높으면, 스택에서 pop하며 answer 채움
+            while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
+                int prevIndex = stack.pop();
+                answer[prevIndex] = i - prevIndex;
+            }
+            // 현재 인덱스를 스택에 push
+            stack.push(i);
+        }
+        // 스택에 남아있는 인덱스들은 answer가 0 (이미 초기화됨)
+        return answer;
+    }
+}
+```
+
+## 시간복잡도
+
+o(n)
+
+---
+
+# 큐를 이용한 스택 구현
+
+<img width="528" height="503" alt="Image" src="https://github.com/user-attachments/assets/0087c418-252d-4dbb-8015-bdbbf4ca7aaa" />
+
+## 풀이
+
+```java
+import java.util.*;
+
+class MyStack {
+    private Queue<Integer> queue = new LinkedList<>();
+
+    public MyStack() {
+    }
+
+    public void push(int x) {
+        queue.add(x);
+        for (int i = 1; i < queue.size(); i++) {
+            queue.add(queue.remove());
+        }
+    }
+
+    public int pop() {
+        return queue.remove();
+    }
+
+    public int top() {
+        return queue.peek();
+    }
+
+    public boolean empty() {
+        return queue.isEmpty();
+    }
+}
+```
+
+---
+
+# 스택을 이용한 큐 구현
+
+<img width="543" height="498" alt="Image" src="https://github.com/user-attachments/assets/94128e95-c77f-4a4c-9dd5-3cdcaf7883c9" />
+
+## 풀이
+
+```java
+import java.util.*;
+
+class MyQueue {
+    private Deque<Integer> in = new ArrayDeque<>();
+    private Deque<Integer> out = new ArrayDeque<>();
+
+    public MyQueue() {
+    }
+
+    public void push(int x) {
+        in.push(x);
+    }
+
+    public int pop() {
+        fromInToOut();
+        return out.pop();
+    }
+
+    public int peek() {
+        fromInToOut();
+        return out.peek();
+    }
+
+    public boolean empty() {
+        return in.isEmpty() && out.isEmpty();
+    }
+
+    private void fromInToOut() {
+        if (out.isEmpty()) {
+            while (!in.isEmpty()) {
+                out.push(in.pop());
+            }
+        }
+    }
+}
+```
+
