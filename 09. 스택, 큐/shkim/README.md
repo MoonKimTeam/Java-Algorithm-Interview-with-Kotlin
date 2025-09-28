@@ -223,3 +223,74 @@ class MyQueue {
 }
 ```
 
+---
+
+# 원형 큐 디자인
+
+<img width="669" height="451" alt="Image" src="https://github.com/user-attachments/assets/d90f294e-216f-4bde-8561-eeb3c81155fb" />
+
+## 풀이
+
+```java
+class MyCircularQueue {
+    private final int[] data;   // 고정 크기 배열 (ring buffer)
+    private final int capacity; // 총 용량 k
+    private int head;           // 현재 Front가 위치한 인덱스
+    private int tail;           // 다음 enQueue가 삽입될 인덱스
+    private int size;           // 현재 원소 수
+
+    public MyCircularQueue(int k) {
+        this.capacity = k;
+        this.data = new int[k];
+        this.head = 0;
+        this.tail = 0;
+        this.size = 0;
+    }
+
+    public boolean enQueue(int value) {
+        if (isFull()) {
+            return false;
+        }
+        data[tail] = value;
+        // tail은 다음 삽입 위치를 가리키므로 삽입 후 한 칸 전진
+        tail = (tail + 1) % capacity;
+        size++;
+        return true;
+    }
+
+    public boolean deQueue() {
+        if (isEmpty()) {
+            return false;
+        }
+        // head는 현재 Front를 가리킴. 삭제는 head를 한 칸 전진.
+        head = (head + 1) % capacity;
+        size--;
+        return true;
+    }
+
+    public int Front() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return data[head];
+    }
+
+    public int Rear() {
+        if (isEmpty()) {
+            return -1;
+        }
+        // tail은 다음 삽입 위치를 가리키므로, 마지막 요소는 tail - 1 위치에 있음.
+        int lastIdx = (tail - 1 + capacity) % capacity;
+        return data[lastIdx];
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public boolean isFull() {
+        return size == capacity;
+    }
+}
+
+```
