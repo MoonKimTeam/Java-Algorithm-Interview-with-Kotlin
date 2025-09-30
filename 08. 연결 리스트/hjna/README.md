@@ -94,3 +94,58 @@ public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 }
 
 ```
+
+# 17. 페어의 노드 스왑
+
+```java
+
+public ListNode swapPairs(ListNode head) {
+    ListNode dummy = new ListNode(0, head);
+    ListNode prev = dummy;
+    ListNode cur = head;
+
+    while (cur != null && cur.next != null) {
+        ListNode nextPair = cur.next.next;
+        ListNode second = cur.next;
+
+        second.next = cur;
+        cur.next = nextPair;
+        prev.next = second;
+
+
+        prev = cur;
+        cur = nextPair;
+    }
+
+    return dummy.next;
+}
+
+```
+
+
+# 18. 홀짝 연결 리스트
+
+```java
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if (head == null) return null;
+
+        ListNode odd = head;
+        ListNode even = head.next;
+        ListNode evenHead = even;
+
+        while (even != null && even.next != null) {
+            odd.next = even.next;
+            odd = odd.next;
+            even.next = odd.next;
+            even = even.next;
+        }
+
+        odd.next = evenHead;
+
+        return head;
+    }
+}
+
+
+```
