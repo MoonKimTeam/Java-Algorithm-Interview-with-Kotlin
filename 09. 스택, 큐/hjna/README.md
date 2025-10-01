@@ -69,3 +69,129 @@ class Solution {
 }
 
 ```
+
+# 23. 큐를 이용한 스택 구현
+```java
+import java.util.LinkedList;
+import java.util.Queue;
+
+class MyStack {
+	private Queue<Integer> queue;
+	public MyStack() {
+		queue = new LinkedList<>();
+	}
+
+	public void push(int x) {
+		queue.add(x);
+
+		for (int i = 0; i < queue.size() - 1; i++) {
+			queue.add(queue.remove());
+		}
+	}
+
+	public int pop() {
+		return queue.remove();
+	}
+
+	public int top() {
+		return queue.peek();
+	}
+
+	public boolean empty() {
+		return queue.isEmpty();
+	}
+}
+
+```
+
+# 24. 스택을 이용한 큐 구현
+```java
+class MyQueue {
+
+	private Stack<Integer> stack1;
+	private Stack<Integer> stack2;
+
+	public MyQueue() {
+		stack1 = new Stack<>();
+		stack2 = new Stack<>();
+	}
+
+	public void push(int x) {
+		stack1.push(x);
+	}
+
+	public int pop() {
+		peek();
+
+		return stack2.pop();
+	}
+
+	public int peek() {
+		if (stack2.empty()) {
+			while (!stack1.empty()) {
+				stack2.push(stack1.pop());
+			}
+		}
+		return stack2.peek();
+	}
+
+	public boolean empty() {
+		return stack1.empty() && stack2.empty();
+	}
+}
+```
+
+# 25. 원형 큐 디자인
+```java
+class MyCircularQueue {
+
+	private int[] data;
+
+	private int front = 0;
+	private int rear = -1;
+	private int size = 0;
+
+	public MyCircularQueue(int k) {
+		data = new int[k];
+	}
+
+	public boolean enQueue(int value) {
+		if (!isFull()) {
+			rear = (rear + 1) % data.length;
+			data[rear] = value;
+			size++;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean deQueue() {
+		if (!isEmpty()) {
+			front = (front + 1) % data.length;
+			size--;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public int Front() {
+		return data[front];
+	}
+
+	public int Rear() {
+		return rear == -1 ? -1 : data[rear];
+	}
+
+	public boolean isEmpty() {
+		return size == 0;
+	}
+
+	public boolean isFull() {
+		return size == data.length;
+	}
+}
+
+```
+
