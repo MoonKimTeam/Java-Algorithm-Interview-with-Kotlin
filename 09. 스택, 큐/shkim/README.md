@@ -60,6 +60,8 @@ o(n)
 ## 풀이
 
 ```java
+import java.util.*;
+
 class Solution {
     public String removeDuplicateLetters(String s) {
         int[] count = new int[26]; // 각 문자의 남은 개수
@@ -114,11 +116,13 @@ o(n)
 ## 풀이
 
 ```java
+import java.util.*;
+
 public class Solution {
     public int[] dailyTemperatures(int[] temperatures) {
         int n = temperatures.length;
         int[] answer = new int[n];
-        java.util.Stack<Integer> stack = new java.util.Stack<>();
+        Stack<Integer> stack = new Stack<>();
         
         for (int i = 0; i < n; i++) {
             // 현재 온도가 스택 top의 온도보다 높으면, 스택에서 pop하며 answer 채움
